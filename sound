@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+echo "Enter output device (1 for HDMI, 2 for Laptop)"
+read output
+
+
+if [ $output == 1 ]; then
+ echo "Setting output device to HDMI"
+ hdmi=$(pacmd list-sinks | grep name: | grep hdmi | sed 's/<//g' | sed 's/>//g' | sed 's/ //g' | cut -d':' -f2)
+ pacmd set-default-sink $hdmi
+fi
+
+if [ $output == 2 ]; then
+ echo "Setting output device to Laptop"
+ analog=$(pacmd list-sinks | grep name: | grep analog | sed 's/<//g' | sed 's/>//g' | sed 's/ //g' | cut -d':' -f2)
+ pacmd set-default-sink $analog
+fi
