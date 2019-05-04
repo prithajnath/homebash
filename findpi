@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Check if nmap is installed
+[ -z "$(which nmap)" ] && echo "nmap is not installed! Please install nmap first" && exit
+
 # Get interface with Internet connection
 intf=$(ip -o route get 8/8 | awk '{print $5}')
 echo "Using $intf as interface..."
