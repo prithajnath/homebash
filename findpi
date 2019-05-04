@@ -9,7 +9,7 @@ intf_ip=$(ifconfig $intf | grep inet | sed -n 1p | awk '{print $2}')
 echo "IP Address of $intf : $intf_ip"
 
 # Get IP range of interface
-cidr=$(ip route | grep $intf_ip | awk '{print $1}')
+cidr=$(ip route | grep $intf_ip | grep "$intf proto kernel" | awk '{print $1}')
 echo "CIDR block : $cidr"
 
 # Scan network for Raspberry Pi
