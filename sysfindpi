@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# Only prints out the pi IP
-# findpi needs to be in the same directory
-
-./findpi | sed '$!d' | cut -d":" -f2 | awk '{print $1}'
