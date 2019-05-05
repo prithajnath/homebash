@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Uses the findpi script to grab the newest IP address of the Pi and update $PI_IP in .bashrc 
+# findpi needs to be in the same directory
+# Execute this on every reboot
+
+new_ip=$(./findpi | sed '$!d' | cut -d":" -f2 | awk '{print $1}')
+source $HOME/.bashrc
+
+if [ -z $PI_IP ]; then
+   echo "No existing IP for Pi found. Setting newest one..."
+   sed -i 's/PI_IP=/PI_IP='"$new_ip"'/' $HOME/.bashrc
+   exit
+fi
+
+if [ $new_ip = $PI_IP ]; then
+    echo "Pi IP hasn't changed"
+else
+    echo "Pi IP has changed from $PI_IP to $new_ip"
+    sed -i 's/'"$PI_IP"'/'"$new_ip"'/' $HOME/.bashrc
+    echo "Updated $HOME/.bashrc"
+fi
