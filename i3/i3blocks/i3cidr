@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+intf=$(ip route get 8.8.8.8 | awk '{print $5}')
+cidr=$(ip addr show $intf | grep inet | grep $intf | awk '{print $2}')
+echo $cidr

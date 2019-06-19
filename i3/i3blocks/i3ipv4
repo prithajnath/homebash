@@ -1,0 +1,4 @@
+intf=$(ip route get 1.1.1.1 | awk '{print $5}')
+ipv4_private=$(ifconfig $intf | grep broadcast | awk '{print $2}')
+ipv4_public=$(dig +short myip.opendns.com @resolver1.opendns.com)
+echo "$ipv4_private (Private)  $ipv4_public (Public)"
