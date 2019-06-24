@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+intf=$(ip route get 8.8.8.8 | awk '{print $5}')
+tx=$(ifconfig $intf | grep TX | sed '2d' | awk -F '(' '{print $2}' | sed 's/)//g')
+rx=$(ifconfig $intf | grep RX | sed '2d' | awk -F '(' '{print $2}' | sed 's/)//g')
+
+echo "RX: $rx TX: $tx"
