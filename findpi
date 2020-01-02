@@ -4,7 +4,7 @@
 [ -z "$(which nmap)" ] && echo "nmap is not installed! Please install nmap first" && exit
 
 # Get interface with Internet connection
-intf=$(ip -o route get 8/8 | awk '{print $5}')
+intf=$(ip route get 1.1.1.1 | awk '{print $5}')
 echo "Using $intf as interface..."
 
 # Get IP of interface
@@ -20,6 +20,6 @@ scan_count=0
 while [ -z "$pi" ]; do
  echo "SCAN #$scan_count"
  pi=$(sudo nmap -sS -p22 $cidr | grep -B 5 Raspberry | sed -n 1p | awk '{print $5}')
- [ -z "$pi" ] && echo "Pi not found. Scanning again..."  || echo "Raspberry Pi IP address : $pi" 
+ [ -z "$pi" ] && echo "Pi not found. Scanning again..."  || echo "Raspberry Pi IP address : $pi"
  scan_count=$(expr $scan_count + 1)
 done
