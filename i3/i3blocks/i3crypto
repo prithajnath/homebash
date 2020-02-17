@@ -1,0 +1,7 @@
+#!/bin/sh
+# Grabs USD price of crypto from Coinbase API
+# Use: ./crypto ETH
+
+price=$(curl https://api.coinbase.com/v2/prices/$1-USD/sell | jq '.data.amount' | sed 's/"//g')
+formatted_price=$(python -c "num=$price; print(f\"{num:,}\")")
+echo "$1: $"$(echo $formatted_price )
