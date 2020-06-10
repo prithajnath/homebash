@@ -1,0 +1,24 @@
+#!/home/prithaj/.virtualenvs/fdy/bin/python
+import os
+import sys
+
+if len(sys.argv) > 1:
+    dir_to_explore = sys.argv[1] # Absolute path to the directory you want to crawl
+else:
+    dir_to_explore = os.getcwd()
+print(f"Crawling {dir_to_explore}...")
+q = os.listdir(dir_to_explore)
+current_path = dir_to_explore
+all_files = []
+
+while q:
+    current_file_or_dir = os.path.join(current_path, q.pop(0))
+    all_files.append(current_file_or_dir)
+    if os.path.isdir(current_file_or_dir): 
+        files_and_dirs = list(map(lambda x:os.path.join(current_file_or_dir,x) ,os.listdir(current_file_or_dir)))
+        q.extend(files_and_dirs)
+
+for i in all_files:
+    print(i)
+
+
