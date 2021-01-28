@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+
+tmp=`uuidgen`
+touch /tmp/$tmp
+
+show_all_ips_found(){
+ echo "Stopping search..."
+ cat /tmp/$tmp
+ rm /tmp/$tmp 
+
+}
+
+trap show_all_ips_found EXIT
+
 # Check if nmap is installed
 [ -z "$(which nmap)" ] && echo "nmap is not installed! Please install nmap first" && exit
 
@@ -17,9 +30,10 @@ echo "CIDR block : $cidr"
 
 # Scan network for Raspberry Pi
 scan_count=0
-while [ -z "$pi" ]; do
+while :
+do
  echo "SCAN #$scan_count"
  pi=$(sudo nmap -sS -p22 $cidr | grep -B 5 B8:27:EB | sed -n 1p | awk '{print $5}')
- [ -z "$pi" ] && echo "Pi not found. Scanning again..."  || echo "Raspberry Pi IP address : $pi"
+ [[ ! -z $pi ]] && [[ -z $(cat /tmp/$tmp | grep $pi) ]]  && echo "Found $pi"  && echo $pi >> /tmp/$tmp 
  scan_count=$(expr $scan_count + 1)
 done
